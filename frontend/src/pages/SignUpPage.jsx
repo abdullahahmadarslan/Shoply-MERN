@@ -144,7 +144,7 @@ const SignUpPage = () => {
 								</>
 							)}
 						</button>
-					</form>
+					</form>	
 
 					<p className='mt-8 text-center text-sm text-gray-400'>
 						Already have an account?{" "}

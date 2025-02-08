@@ -4,19 +4,19 @@ import Product from "../models/product.model.js";
 export const getCartProducts = async (req, res) => {
 	try {
 		// Extract product IDs from cartItems
-		const productIds = req.user.cartItems.map(item => item.product);
+		const productIds = req.user.cartItems.map(item => item._id);
 
 		// Fetch products from MongoDB that match the extracted IDs
 		const products = await Product.find({ _id: { $in: productIds } });
-
+		// console.log(products)
 		// Add quantity for each product
 		const cartItems = products.map((product) => {
 			const item = req.user.cartItems.find(
-				(cartItem) => cartItem.product.toString() === product._id.toString()
+				(cartItem) => cartItem._id.toString() === product._id.toString()
 			);
 			return { ...product.toObject(), quantity: item ? item.quantity : 1 };
 		});
-
+		// console.log(cartItems)
 		// Send the response with the updated cart items
 		res.json(cartItems);
 	} catch (error) {

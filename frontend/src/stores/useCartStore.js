@@ -56,17 +56,20 @@ export const useCartStore = create((set, get) => ({
 			toast.success("Product added to cart");
 
 			set((prevState) => {
+				// console.log(prevState)
 				const existingItem = prevState.cart.find((item) => item._id === product._id);
 				const newCart = existingItem
+				// If the product is already in the cart, it increments the quantity.
 					? prevState.cart.map((item) =>
 							item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
 					  )
+				// If the product is not in the cart, it adds it as a new entry.
 					: [...prevState.cart, { ...product, quantity: 1 }];
 				return { cart: newCart };
 			});
 			get().calculateTotals();
 		} catch (error) {
-			toast.error(error.response.data.message || "An error occurred");
+			toast.error(error.response.data.message || "An error occurred while adding to cart");
 		}
 	},
 	removeFromCart: async (productId) => {
@@ -88,8 +91,8 @@ export const useCartStore = create((set, get) => ({
 	},
 	calculateTotals: () => {
 		const { cart, coupon } = get();
-		const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-		let total = subtotal;
+		const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0); //subtotal = without any discount
+		let total = subtotal; 
 
 		if (coupon) {
 			const discount = subtotal * (coupon.discountPercentage / 100);
