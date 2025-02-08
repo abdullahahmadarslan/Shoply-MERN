@@ -65,7 +65,7 @@ export const createCheckoutSession = async (req, res) => {
 		});
 
         // issuing a new coupon if the total amount is greater than or equal to 20000
-		if (totalAmount >= 20000) {
+		if ((totalAmount/100) >= 500) {
 			await createNewCoupon(req.user._id);
 		}
 		res.status(200).json({ id: session.id, totalAmount: totalAmount / 100 });
@@ -114,6 +114,8 @@ export const checkoutSuccess = async (req, res) => {
 				message: "Payment successful, order created, and coupon deactivated if used.",
 				orderId: newOrder._id,
 			});
+		}else{
+			throw new Error("Payment not successful");
 		}
 	} catch (error) {
 		console.error("Error processing successful checkout:", error);

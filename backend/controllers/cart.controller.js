@@ -66,6 +66,20 @@ export const removeAllFromCart = async (req, res) => {
 	}
 };
 
+// clears the cart
+export const clearCart = async (req, res) => {
+	try {
+		const user = req.user;
+		user.cartItems = [];
+		await user.save();
+		res.json(user.cartItems);
+	} catch (error) {
+		console.log("Error in clearCart controller", error.message);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+};
+
+// updating the quantity
 export const updateQuantity = async (req, res) => {
 	try {
 		const { id: productId } = req.params;

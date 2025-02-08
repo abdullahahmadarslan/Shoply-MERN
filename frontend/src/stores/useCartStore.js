@@ -8,7 +8,8 @@ export const useCartStore = create((set, get) => ({
 	total: 0,
 	subtotal: 0,
 	isCouponApplied: false,
-
+	orderNo: null,
+	setOrderNo: (orderNo) => set({ orderNo }),
 	getMyCoupon: async () => {
 		try {
 			const response = await axios.get("/coupons");
@@ -48,7 +49,13 @@ export const useCartStore = create((set, get) => ({
 		}
 	},
 	clearCart: async () => {
-		set({ cart: [], coupon: null, total: 0, subtotal: 0 });
+		try {
+			set({ cart: [], coupon: null, total: 0, subtotal: 0 });
+			axios.post("/cart/clear");	
+			toast.success("Cart Empty Now");
+		} catch (error) {
+			toast.error(error.response.data.message || "An error occurred while clearing the cart");
+		}
 	},
 	addToCart: async (product) => {
 		try {
