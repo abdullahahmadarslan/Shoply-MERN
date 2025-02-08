@@ -34,7 +34,7 @@ const Navbar = () => {
 								<span className='hidden sm:inline'>Cart</span>
 								{cart.length > 0 && (
 									<span
-										className='absolute -top-3 -left-3 bg-emerald-500 text-white rounded-full px-2 py-0.5 
+										className='absolute -top-2 -left-3 bg-emerald-500 text-white rounded-full px-2 py-0.5 
 									text-[10px] group-hover:bg-emerald-400 transition duration-300 ease-in-out'
 									>
 										{cart.length}
