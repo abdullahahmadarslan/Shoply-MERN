@@ -15,7 +15,9 @@ export const useProductStore = create((set) => ({
 				products: [...prevState.products, res.data],
 				loading: false,
 			}));
+            toast.success("Product Added to Store!")
 		} catch (error) {
+            console.error("error while creating product")
 			toast.error(error.response.data.error);
 			set({ loading: false });
 		}
@@ -27,7 +29,7 @@ export const useProductStore = create((set) => ({
 			set({ products: response.data.products, loading: false });
 		} catch (error) {
 			set({ error: "Failed to fetch products", loading: false });
-			toast.error(error.response.data.error || "Failed to fetch products");
+			toast.error(error.response.data.error || "Failed to fetch all products");
 		}
 	},
 	fetchProductsByCategory: async (category) => {
@@ -37,7 +39,7 @@ export const useProductStore = create((set) => ({
 			set({ products: response.data.products, loading: false });
 		} catch (error) {
 			set({ error: "Failed to fetch products", loading: false });
-			toast.error(error.response.data.error || "Failed to fetch products");
+			toast.error(error.response.data.error || "Failed to fetch products by category");
 		}
 	},
 	deleteProduct: async (productId) => {
